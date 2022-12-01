@@ -8,36 +8,52 @@ This code is currently BETA. Prior versions of the smart contract have been audi
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts with balances.
 
-### Installing
+> Recommended to use Node.js v14+ and npm v7+.
 
-The ENS Subdomain registrar uses npm to manage dependencies, therefore the installation process is kept simple:
+> Rename `env.example` to `.env` and add your env specific keys.
 
-```
+Try running some of the following tasks:
+
+```shell
 npm install
-```
 
-### Running tests
+# starts local node
+npx hardhat node
 
-The ENS Subdomain registrar uses truffle for its ethereum development environment. All tests can be run using truffle:
+# list accounts with balances
+npx hardhat accounts
 
-```
-truffle test
-```
+# show balance eth of specified account
+npx hardhat balance --account '0x47a9...'
 
-To run linting, use solium:
+# compile contracts
+npx hardhat compile
 
-```
-solium --dir ./contracts
-```
+# deploy contract defined in tasks on specified network
+npx hardhat deploy --network local
 
-### Running the dapp
+# deploy contract in scripts/deploy.js on specified network
+npx hardhat run scripts/deploy.js --network local
 
-```
-ganache-cli &
-truffle deploy
-npm run dev
+#check linter issues using solhint plugin
+npx hardhat check
+
+# check coverage using solidity-coverage plugin: supports hardhat network only
+npx hardhat coverage --network hardhat
+
+# unit tests including gas usage
+npx hardhat test
+
+# remove all compiled and deployed artifacts
+npx hardhat clean
+
+# verify contract
+npx hardhat verify --network <deployed network> <deployed contract address> "<constructor1>" "<constructor2>"
+
+# show help
+npx hardhat help
 ```
 
 ## Operation
@@ -52,9 +68,9 @@ There is no functionality in the contract for listing or querying domains that a
 
 Any .eth domain owner may use this contract by:
 
- 1. Transferring ownership of the Deed to the deployed contract.
- 2. Calling `configureDomain(name, price, referralFeePPM)`, where `name` is the name of the domain (without .eth), price is the price in wei to charge for a subdomain registration, and `referralFeePPM` is the referral fee to offer to frontends, in parts-per-million.
- 3. Getting the new domain whitelisted with frontends so users can buy it.
+1.  Transferring ownership of the Deed to the deployed contract.
+2.  Calling `configureDomain(name, price, referralFeePPM)`, where `name` is the name of the domain (without .eth), price is the price in wei to charge for a subdomain registration, and `referralFeePPM` is the referral fee to offer to frontends, in parts-per-million.
+3.  Getting the new domain whitelisted with frontends so users can buy it.
 
 Note that this process is IRREVOCABLE! For the security of customers, once you have transferred your domain to the subdomain registrar, you cannot claim it back except under very limited circumstances (see below).
 
@@ -70,20 +86,20 @@ At any point, the owner of a domain may specify a 'transfer address' for their d
 
 The intended workflow is as follows:
 
- 1. A new .eth registrar is deployed, but not yet activated. Users are advised of a migration date.
- 2. Domain owners on the subdomain registrar set the transfer address for their domains to that of a 'migration contract' that will handle upgrading the domain to the new registrar and committing it to a new subdomain registrar.
- 3. Users have an opportunity to evaluate the upgrade path, and stop using their subdomains if unhappy with it.
- 3. The .eth registrar upgrade happens.
- 4. The domain owner calls `upgrade`, transferring ownership and performing the upgrade process.
+1.  A new .eth registrar is deployed, but not yet activated. Users are advised of a migration date.
+2.  Domain owners on the subdomain registrar set the transfer address for their domains to that of a 'migration contract' that will handle upgrading the domain to the new registrar and committing it to a new subdomain registrar.
+3.  Users have an opportunity to evaluate the upgrade path, and stop using their subdomains if unhappy with it.
+4.  The .eth registrar upgrade happens.
+5.  The domain owner calls `upgrade`, transferring ownership and performing the upgrade process.
 
 ## Built With
-* [Truffle](https://github.com/trufflesuite/truffle) - Ethereum development environment
 
+- [Truffle](https://github.com/trufflesuite/truffle) - Ethereum development environment
 
 ## Authors
 
-* **Nick Johnson** - [Arachnid](https://github.com/Arachnid)
-* **Dean Eigenmann** - [decanus](https://github.com/decanus)
+- **Nick Johnson** - [Arachnid](https://github.com/Arachnid)
+- **Dean Eigenmann** - [decanus](https://github.com/decanus)
 
 See also the list of [contributors](https://github.com/ensdomains/subdomain-registrar/contributors) who participated in this project.
 

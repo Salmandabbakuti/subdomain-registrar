@@ -36,6 +36,18 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Other files and folders
+.settings/
+package-lock.json
+yarn.lock
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+*.env
+
 # Typescript v1 declaration files
 typings/
 
@@ -59,3 +71,9 @@ typings/
 
 build/
 .DS_Store
+
+#Hardhat files
+cache
+artifacts/
+coverage/
+coverage.json
